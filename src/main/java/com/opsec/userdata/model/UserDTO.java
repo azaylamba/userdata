@@ -2,6 +2,8 @@ package com.opsec.userdata.model;
 
 import java.util.Date;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 /**
  * Class to pass user information through end points. <br>
@@ -9,10 +11,15 @@ import java.util.Date;
  */
 public class UserDTO {
     
+    @ApiModelProperty(notes = "The specified user id")
     private long id;
+    @ApiModelProperty(notes = "First name of the user")
     private String firstName;
+    @ApiModelProperty(notes = "Surname of the user")
     private String surname;
+    @ApiModelProperty(notes = "DOB of the user")
     private Date dob;
+    @ApiModelProperty(notes = "Title of the user")
     private String title;
     
     /**

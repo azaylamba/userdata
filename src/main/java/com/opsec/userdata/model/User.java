@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  *
  * User domain class to represent User information.
@@ -12,13 +14,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "user")
 public class User {
-
+    
+    @ApiModelProperty(notes = "The specified user id")
     @Id
     private long id;
-    
+    @ApiModelProperty(notes = "First name of the user")
     private String firstName;
+    @ApiModelProperty(notes = "Surname of the user")
     private String surname;
+    @ApiModelProperty(notes = "DOB of the user")
     private Date dob;
+    @ApiModelProperty(notes = "Title of the user")
     private String title;
     
     /**

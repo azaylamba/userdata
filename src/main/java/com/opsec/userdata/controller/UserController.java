@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.opsec.userdata.constants.UserConstants;
@@ -15,12 +16,18 @@ import com.opsec.userdata.exception.UserValidationException;
 import com.opsec.userdata.model.User;
 import com.opsec.userdata.model.UserDTO;
 import com.opsec.userdata.service.api.IUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Controller class for exposing REST endpoints.
  *
  */
 @RestController
+@RequestMapping("/user")
+@Api(value="userdata")
 public class UserController {
     
     private final IUserService userService;
@@ -34,7 +41,12 @@ public class UserController {
      *
      * @param userDTO User data passed in the request body
      */
-    @PostMapping("/user/create")
+    @PostMapping("/create")
+    @ApiOperation(value = "Creates a user in the database", response = User.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully created the user"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
     public ResponseEntity<User> create(@RequestBody UserDTO userDTO) {
         User user = mapUser(userDTO);
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
@@ -46,7 +58,12 @@ public class UserController {
      * @param id user id passed as parameter
      * @return User object
      */
-    @GetMapping("/user/find/{id}")
+    @ApiOperation(value = "Returns a user for the given user id", response = User.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved the user"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
+    @GetMapping("/find/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
@@ -56,7 +73,12 @@ public class UserController {
      *
      * @param userDTO User object passed in the request body
      */
-    @PostMapping("/user/update")
+    @PostMapping("/update")
+    @ApiOperation(value = "Updates a user in the database", response = User.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated the user"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
     public ResponseEntity<User> update(@RequestBody UserDTO userDTO) {
         User user = mapUser(userDTO);
         return new ResponseEntity<>(userService.updateUser(user), HttpStatus.ACCEPTED);
@@ -67,7 +89,12 @@ public class UserController {
      *
      * @param id user id passed in the parameter
      */
-    @DeleteMapping("user/delete/{id}")
+    @ApiOperation(value = "Deletes a user from the database using given user id")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted the user"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id) {
         userService.deleteUser(id);
     }
