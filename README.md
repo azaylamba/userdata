@@ -17,6 +17,6 @@ Netflix Zuul Proxy has been discontinued, so I have used Spring Cloud Gateway in
 
 Steps are as below:
 1. Run UserdataApplication microservice (configured to run on port 8080)
-2. Run CloudgatewayApplication microservice which is configured to run on port 8085
+2. Run CloudgatewayApplication microservice which is configured to run on port 8085. Repo link - https://github.com/azaylamba/cloudgateway
    This will route all the requests having URLs matching to /user/** coming to 8085 to 8080 and return the results
 
